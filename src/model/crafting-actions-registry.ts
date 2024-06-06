@@ -1,4 +1,4 @@
-import { CraftingAction } from './actions/crafting-action';
+import { CraftingAction } from './actions/gathering-action';
 import { BasicSynthesis } from './actions/progression/basic-synthesis';
 import { CarefulSynthesis } from './actions/progression/careful-synthesis';
 import { RapidSynthesis } from './actions/progression/rapid-synthesis';

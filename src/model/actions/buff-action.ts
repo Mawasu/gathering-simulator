@@ -1,7 +1,7 @@
 import { Simulation } from '../../simulation/simulation';
 import { ActionType } from './action-type';
 import { Buff } from '../buff.enum';
-import { CraftingAction } from './crafting-action';
+import { CraftingAction } from './gathering-action';
 import { EffectiveBuff } from '../effective-buff';
 import { StepState } from '../step-state';
 

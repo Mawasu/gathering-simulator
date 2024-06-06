@@ -1,4 +1,4 @@
-import { CraftingAction } from '../model/actions/crafting-action';
+import { CraftingAction } from '../model/actions/gathering-action';
 import { ActionResult } from '../model/action-result';
 import { CrafterStats } from '../model/crafter-stats';
 import { EffectiveBuff } from '../model/effective-buff';

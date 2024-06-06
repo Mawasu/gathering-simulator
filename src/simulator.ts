@@ -16,7 +16,7 @@ export * from './model/step-state';
 export * from './model/tables';
 export * from './model/actions/action-type';
 export * from './model/actions/buff-action';
-export * from './model/actions/crafting-action';
+export * from './model/actions/gathering-action';
 export * from './model/actions/general-action';
 export * from './model/actions/progress-action';
 export * from './model/actions/quality-action';

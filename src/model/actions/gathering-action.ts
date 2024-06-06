@@ -9,7 +9,7 @@ import { Tables } from '../tables';
 /**
  * This is the parent class of all actions in the simulator.
  */
-export abstract class GatheringAction {
+export abstract class CraftingAction {
   /**
    * checks if the action can be moved inside the simulation state,
    * this is meant to prevent moving automatic actions (looking at you Whistle end progression tick).

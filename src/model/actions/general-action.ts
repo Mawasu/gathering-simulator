@@ -1,4 +1,4 @@
-import { CraftingAction } from './crafting-action';
+import { CraftingAction } from './gathering-action';
 import { Simulation } from '../../simulation/simulation';
 import { Buff } from '../buff.enum';
 import { StepState } from '../step-state';

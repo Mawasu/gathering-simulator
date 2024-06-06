@@ -1,6 +1,6 @@
 import { Buff } from './buff.enum';
 import { Simulation } from '../simulation/simulation';
-import { CraftingAction } from './actions/crafting-action';
+import { CraftingAction } from './actions/gathering-action';
 
 export interface EffectiveBuff {
   duration: number;
