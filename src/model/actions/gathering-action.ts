@@ -9,23 +9,10 @@ import { Tables } from '../tables';
 /**
  * This is the parent class of all actions in the simulator.
  */
-export abstract class CraftingAction {
-  /**
-   * checks if the action can be moved inside the simulation state,
-   * this is meant to prevent moving automatic actions (looking at you Whistle end progression tick).
-   * @returns {boolean}
-   */
-  public canBeMoved(currentIndex: number): boolean {
-    return true;
-  }
-
+export abstract class GatheringAction {
   public getId(jobId: number): number {
     // Crafter ids are 8 to 15, we want indexes from 0 to 7, so...
     return this.getIds()[jobId - 8] || this.getIds()[0];
-  }
-
-  public getWaitDuration(): number {
-    return this.getType() === ActionType.BUFF ? 2 : 3;
   }
 
   /**
@@ -33,10 +20,6 @@ export abstract class CraftingAction {
    * Example: Observe, Master's Mend, buffs.
    */
   public skipOnFail(): boolean {
-    return false;
-  }
-
-  public requiresGood(): boolean {
     return false;
   }
 
@@ -169,7 +152,7 @@ export abstract class CraftingAction {
    * Checks if this action is an instance of a given other action.
    * @param actionClass
    */
-  is<T extends CraftingAction>(actionClass: Class<T>): actionClass is Class<T> {
+  is<T extends GatheringAction>(actionClass: Class<T>): actionClass is Class<T> {
     return this instanceof actionClass;
   }
 
