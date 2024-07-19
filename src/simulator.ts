@@ -7,7 +7,7 @@ export * from './model/buff.enum';
 export * from './model/craft';
 export * from './model/crafter-stats';
 export * from './model/crafting-actions-registry';
-export * from './model/crafting-job.enum';
+export * from './model/gathering-job.enum';
 export * from './model/effective-buff';
 export * from './model/gear-set';
 export * from './model/ingredient';

@@ -1,7 +1,6 @@
 export interface Item {
   name: string;
-  level: number;
-  ilvl: number;
+  glvl: number;
   collectible?: boolean;
   hidden?: boolean;
 }

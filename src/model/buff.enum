@@ -1,0 +1,8 @@
+export enum Buff {
+    SHARP_VISION,
+    SHARP_VISION_II,
+    SHARP_VISION_III,
+
+    MOUNTAINEERS_GIFT_I
+    
+}

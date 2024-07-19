@@ -1,6 +1,6 @@
-import { CraftingAction } from '../model/actions/gathering-action';
+import { GatheringAction } from '../model/actions/gathering-action';
 import { ActionResult } from '../model/action-result';
-import { CrafterStats } from '../model/crafter-stats';
+import { GathererStats } from '../model/gatherer-stats';
 import { EffectiveBuff } from '../model/effective-buff';
 import { Buff } from '../model/buff.enum';
 import { SimulationResult } from './simulation-result';
@@ -11,13 +11,14 @@ import { Craft } from '../model/craft';
 import { StepState } from '../model/step-state';
 import { FinalAppraisal } from '../model/actions/buff/final-appraisal';
 import { RemoveFinalAppraisal } from '../model/actions/other/remove-final-appraisal';
+import { GatheringNode } from '../model/gathering-node';
 
 export class Simulation {
   public progression = 0;
   public quality = 0;
   public startingQuality = 0;
   // Durability of the craft
-  public durability: number;
+  public integrity: number;
 
   public state: StepState = StepState.NORMAL;
 
@@ -36,43 +37,16 @@ export class Simulation {
   public safe = false;
 
   constructor(
-    public readonly recipe: Craft,
-    public actions: CraftingAction[],
-    private _crafterStats: CrafterStats,
-    private hqIngredients: { id: number; amount: number }[] = [],
+    public readonly node: GatheringNode,
+    public actions: GatheringAction[],
+    private _crafterStats: GathererStats,
     private stepStates: { [index: number]: StepState } = {},
     private fails: number[] = [],
     startingQuality = 0
   ) {
-    this.durability = recipe.durability;
-    this.availableCP = this._crafterStats.cp;
+    this.integrity = node.integrity;
+    this.availableCP = this._crafterStats.initialGP;
     this.maxCP = this.availableCP;
-    for (const ingredient of this.hqIngredients) {
-      // Get the ingredient in the recipe
-      const ingredientDetails = this.recipe.ingredients.find((i) => i.id === ingredient.id);
-      // Check that the ingredient in included in the recipe
-      if (ingredientDetails !== undefined && ingredientDetails.quality) {
-        this.quality += ingredientDetails.quality * ingredient.amount;
-      }
-    }
-    if (this.hqIngredients.length === 0) {
-      this.quality = startingQuality;
-    }
-    this.quality = Math.floor(this.quality);
-    this.startingQuality = this.quality;
-
-    this.possibleConditions = this.recipe.conditionsFlag
-      .toString(2)
-      .split('')
-      .reverse()
-      .map((value, index) => {
-        if (value === '1') {
-          return (index + 1) as StepState;
-        } else {
-          return null;
-        }
-      })
-      .filter((condition) => condition !== null) as StepState[];
   }
 
   public get lastStep(): ActionResult {

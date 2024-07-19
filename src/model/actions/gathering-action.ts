@@ -1,10 +1,9 @@
 import { Simulation } from '../../simulation/simulation';
 import { ActionType } from './action-type';
-import { CraftingJob } from '../crafting-job.enum';
+import { GatheringJob } from '../gathering-job.enum';
 import { SimulationFailCause } from '../simulation-fail-cause.enum';
 import { Class } from '@kaiu/serializer';
 import { StepState } from '../step-state';
-import { Tables } from '../tables';
 
 /**
  * This is the parent class of all actions in the simulator.
@@ -27,7 +26,7 @@ export abstract class GatheringAction {
     return false;
   }
 
-  abstract getLevelRequirement(): { job: CraftingJob; level: number };
+  abstract getLevelRequirement(): { job: GatheringJob; level: number };
 
   abstract getType(): ActionType;
 
@@ -51,7 +50,7 @@ export abstract class GatheringAction {
       return false;
     }
     if (
-      levelRequirement.job !== CraftingJob.ANY &&
+      levelRequirement.job !== GatheringJob.ANY &&
       simulationState.crafterStats.levels[levelRequirement.job] !== undefined
     ) {
       return (
@@ -102,7 +101,7 @@ export abstract class GatheringAction {
       return SimulationFailCause.UNSAFE_ACTION;
     }
     if (
-      levelRequirement.job !== CraftingJob.ANY &&
+      levelRequirement.job !== GatheringJob.ANY &&
       simulationState.crafterStats.levels[levelRequirement.job] !== undefined
     ) {
       if (simulationState.crafterStats.levels[levelRequirement.job] < levelRequirement.level) {
@@ -127,16 +126,16 @@ export abstract class GatheringAction {
   abstract _canBeUsed(simulationState: Simulation, linear?: boolean): boolean;
 
   public getCPCost(simulationState: Simulation, linear = false): number {
-    const baseCost = this.getBaseCPCost(simulationState);
+    const baseCost = this.getBaseGPCost(simulationState);
     if (simulationState.state === StepState.PLIANT) {
       return Math.ceil(baseCost / 2);
     }
     return baseCost;
   }
 
-  abstract getBaseCPCost(simulationState: Simulation): number;
+  abstract getBaseGPCost(simulationState: Simulation): number;
 
-  abstract getDurabilityCost(simulationState: Simulation): number;
+  abstract getIntegrityCost(simulationState: Simulation): number;
 
   abstract execute(simulation: Simulation, safe?: boolean): void;
 
@@ -154,25 +153,5 @@ export abstract class GatheringAction {
    */
   is<T extends GatheringAction>(actionClass: Class<T>): actionClass is Class<T> {
     return this instanceof actionClass;
-  }
-
-  public getBaseProgression(simulation: Simulation): number {
-    const stats = simulation.crafterStats;
-    const baseValue = (stats.craftsmanship * 10) / simulation.recipe.progressDivider + 2;
-    if (Tables.LEVEL_TABLE[stats.level] <= simulation.recipe.rlvl) {
-      return Math.floor(
-        baseValue * (simulation.recipe.progressModifier || 100) * Math.fround(0.01)
-      );
-    }
-    return Math.floor(baseValue);
-  }
-
-  public getBaseQuality(simulation: Simulation): number {
-    const stats = simulation.crafterStats;
-    const baseValue = (stats.getControl(simulation) * 10) / simulation.recipe.qualityDivider + 35;
-    if (Tables.LEVEL_TABLE[stats.level] <= simulation.recipe.rlvl) {
-      return Math.floor(baseValue * (simulation.recipe.qualityModifier || 100) * Math.fround(0.01));
-    }
-    return Math.floor(baseValue);
   }
 }
